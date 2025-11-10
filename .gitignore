@@ -1,0 +1,81 @@
+# -------------------------------------------------------------------
+# Terraform core files
+# -------------------------------------------------------------------
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore local and environment-specific variable files
+*.tfvars
+*.tfvars.json
+terraform.tfvars
+secrets.tfvars
+credentials.tfvars
+
+# -------------------------------------------------------------------
+# Terraform working directories
+# -------------------------------------------------------------------
+.terraform/
+.terraform.lock.hcl
+
+# Local auto-generated files (terraform apply, output, or debug)
+terraform.tfstate.backup
+terraform.rc
+.terraform.tfstate.lock.info
+
+# -------------------------------------------------------------------
+# Terragrunt (if you use it)
+# -------------------------------------------------------------------
+.terragrunt-cache/
+*.hcl.lock
+**/.terragrunt-cache/
+
+# -------------------------------------------------------------------
+# Terraform plugins, providers, and local binaries
+# -------------------------------------------------------------------
+terraform-provider-*
+terraform.exe
+terraform*
+tfplan*
+
+# -------------------------------------------------------------------
+# IDEs and editors
+# -------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+# -------------------------------------------------------------------
+# Misc local files
+# -------------------------------------------------------------------
+.env
+.env.*
+*.log
+*.zip
+*.tar.gz
+*.bak
+*.retry
+*.out
+
+# -------------------------------------------------------------------
+# Kube / AWS credentials (sensitive)
+# -------------------------------------------------------------------
+.kube/
+.aws/
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.jks
