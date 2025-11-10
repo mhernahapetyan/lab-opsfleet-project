@@ -2,11 +2,11 @@
 
 variable "project" {
   description = "to which project does it belong"
-  type = string
+  type        = string
 }
 
 variable "env" {
-  type    = string
+  type = string
   validation {
     condition = contains(
       ["dev", "test", "staging", "demo", "prod", "infra", "poc"],

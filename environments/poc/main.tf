@@ -13,10 +13,10 @@ module "eks" {
 }
 
 module "karpenter" {
-  source     = "../../modules/karpenter"
+  source                                 = "../../modules/karpenter"
   eks_cluster_certificate_authority_data = module.eks.authority_data
-  eks_cluster_endpoint = module.eks.cluster_endpoint
-  eks_cluster_name = module.eks.cluster_name
-  eks_oidc_provider_url = module.eks.oidc_provider
-  env = var.env
+  eks_cluster_endpoint                   = module.eks.cluster_endpoint
+  eks_cluster_name                       = module.eks.cluster_name
+  eks_oidc_provider_url                  = module.eks.oidc_provider
+  env                                    = var.env
 }

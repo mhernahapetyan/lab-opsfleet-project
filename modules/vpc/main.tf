@@ -8,8 +8,8 @@ module "context" {
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "6.5.0"
-  name = "${local.service_full_name}-services-vpc"
-  cidr = var.cidr
+  name    = "${local.service_full_name}-services-vpc"
+  cidr    = var.cidr
 
   azs = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
   public_subnets = [
@@ -24,12 +24,12 @@ module "vpc" {
     cidrsubnet(var.cidr, 8, 13)
   ]
 
-  public_subnet_tags  = merge(module.context.tags,
-   { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "kubernetes.io/role/elb" = "1" } 
-   )
+  public_subnet_tags = merge(module.context.tags,
+    { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "kubernetes.io/role/elb" = "1" }
+  )
   private_subnet_tags = merge(module.context.tags,
-   { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "kubernetes.io/role/internal-elb" = "1", "karpenter.sh/discovery" = "eks-cluster-${var.env}" }
-   )
+    { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "kubernetes.io/role/internal-elb" = "1", "karpenter.sh/discovery" = "eks-cluster-${var.env}" }
+  )
 
   database_subnets = [
     cidrsubnet(var.cidr, 8, 21),
@@ -73,8 +73,8 @@ resource "aws_security_group" "endpoints_networking" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags ={
-    "Name": "${local.service_full_name}-vpc-endpoints-sg"
+  tags = {
+    "Name" : "${local.service_full_name}-vpc-endpoints-sg"
   }
 }
 
@@ -83,16 +83,16 @@ module "endpoints" {
   depends_on = [
     module.vpc
   ]
-  vpc_id             = module.vpc.vpc_id
+  vpc_id = module.vpc.vpc_id
 
   security_group_ids = [aws_security_group.endpoints_networking.id]
 
   endpoints = {
     s3 = {
-      service = "s3"
+      service         = "s3"
       service_type    = "Gateway"
       route_table_ids = flatten([module.vpc.private_route_table_ids, module.vpc.public_route_table_ids])
-      tags    = { Name = "${local.service_full_name}-services-s3-vpc-endpoint" }
+      tags            = { Name = "${local.service_full_name}-services-s3-vpc-endpoint" }
     },
     dynamodb = {
       service         = "dynamodb"
@@ -103,37 +103,37 @@ module "endpoints" {
     ecr-api = {
       service             = "ecr.api"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ecr-api" }
     },
     ecr-dkr = {
       service             = "ecr.dkr"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ecr-dkr" }
     },
     ec2 = {
       service             = "ec2"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ec2" }
     },
     ssm = {
       service             = "ssm"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ssm" }
     }
     ec2messages = {
       service             = "ec2messages"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ec2messages" }
     },
     ssmmessages = {
       service             = "ssmmessages"
       private_dns_enabled = true
-      subnet_ids          = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
+      subnet_ids          = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
       tags                = { Name = "vpce-interface-${var.env}-ssmmessages" }
     }
   }

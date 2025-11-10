@@ -26,12 +26,12 @@ module "eks" {
     }
   }
 
-  vpc_id                  = var.vpc_id
-  subnet_ids              = var.subnet_ids
+  vpc_id     = var.vpc_id
+  subnet_ids = var.subnet_ids
 
-  security_group_name              = "sgr-${var.env}-eks-cluster"
-  security_group_use_name_prefix   = false
-  security_group_description       = "EKS Cluster security group"
+  security_group_name                      = "sgr-${var.env}-eks-cluster"
+  security_group_use_name_prefix           = false
+  security_group_description               = "EKS Cluster security group"
   enable_cluster_creator_admin_permissions = true
 
   node_security_group_additional_rules = {
@@ -55,14 +55,14 @@ module "eks" {
 
   eks_managed_node_groups = {
     system-nodes = {
-      node_group_name        = "system-nodes"
-      instance_types         = ["t3.medium"]
-      ami_type               = "AL2023_x86_64_STANDARD"
-      subnet_ids             = var.subnet_ids
-      min_size               = 2     # 1 node per subnet (approx)
-      max_size               = 4
-      desired_size           = 2
-      capacity_type          = "ON_DEMAND"
+      node_group_name = "system-nodes"
+      instance_types  = ["t3.medium"]
+      ami_type        = "AL2023_x86_64_STANDARD"
+      subnet_ids      = var.subnet_ids
+      min_size        = 2 # 1 node per subnet (approx)
+      max_size        = 4
+      desired_size    = 2
+      capacity_type   = "ON_DEMAND"
 
       additional_tags = {
         Name = "opsfleet-shared-eks-nodegroup-system-nodes"
@@ -82,7 +82,7 @@ module "eks" {
     }
   }
   tags = merge(module.context.tags,
-   { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "karpenter.sh/discovery" = "eks-cluster-${var.env}" }
+    { "kubernetes.io/cluster/eks-cluster-${var.env}" = "shared", "karpenter.sh/discovery" = "eks-cluster-${var.env}" }
   )
 
 }

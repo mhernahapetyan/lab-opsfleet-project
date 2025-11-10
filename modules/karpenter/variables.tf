@@ -1,6 +1,6 @@
 variable "karpenter_version" {
   description = "Karpenter version"
-  type        = string  
+  type        = string
   default     = "1.3.1"
 }
 
@@ -39,7 +39,7 @@ variable "spot_allocation_strategy" {
   description = "The spot allocation strategy to use for Karpenter. Options: price-capacity-optimized, capacity-optimized, lowest-price, diversified"
   type        = string
   default     = "price-capacity-optimized"
-  
+
   validation {
     condition     = contains(["price-capacity-optimized", "capacity-optimized", "lowest-price", "diversified"], var.spot_allocation_strategy)
     error_message = "Valid values for spot_allocation_strategy are: price-capacity-optimized, capacity-optimized, lowest-price, diversified."
